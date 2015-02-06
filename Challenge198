@@ -1,0 +1,83 @@
+package learningcode;
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+/**
+ * http://www.reddit.com/r/dailyprogrammer/comments/2syz7y/20150119_challenge_198_easy_words_with_enemies/
+ *
+ * @author Cabz
+ */
+import java.util.*;
+
+public class Challenge198wordswithEnemies {
+
+    int leftVictory = 0;
+    int rightVictory = 0;
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        System.out.println("Enter the words to fight seperated by a space");
+        Scanner scan = new Scanner(System.in);
+        //String word = scan.nextLine();  
+        String left = "";
+        while (!"exit".equals(left)) {
+            left = scan.next();
+            String right = scan.next();
+
+            System.out.println(battle(left, right));
+        }
+    }
+
+    public static String battle(String left, String right) {
+        StringBuilder surviviors = new StringBuilder();
+        StringBuilder rightHolder = new StringBuilder();
+        StringBuilder leftHolder = new StringBuilder();
+        leftHolder.append(left);
+        rightHolder.append(right);
+        for (int i = 0; i < left.length(); i++) {
+            
+            StringBuilder container = new StringBuilder();
+            container.append(left.charAt(i));
+            if (!(rightHolder.toString().contains(container))) {
+                surviviors.append(left.charAt(i));
+            }
+           
+           String letter = container.toString();
+           int position = rightHolder.indexOf(letter);
+           if(position>0){
+           rightHolder.deleteCharAt(position);
+           }
+
+        }
+        int leftPoints = surviviors.length();
+        for (int i = 0; i < right.length(); i++) {
+            StringBuilder container = new StringBuilder();
+            container.append(right.charAt(i));
+            if (!(left.contains(container))) {
+                surviviors.append(right.charAt(i));
+            }
+            String letter = container.toString();
+           int position = leftHolder.indexOf(letter);
+           if(position>0){
+           leftHolder.deleteCharAt(position);
+        }
+        }
+        int rightPoints = surviviors.length() - leftPoints;
+
+        if (left.equals("exit")) {
+            return "";
+        } else if (leftPoints > rightPoints) {
+            return surviviors.toString() + (" falls to the vally, LEFTSIDE VIICCTORYY");
+        } else if ((leftPoints < rightPoints)) {
+            return surviviors.toString() + (" falls to the vally, RIGHTSIDE VIICCTORYY");
+        } else {
+            return surviviors.toString() + (" falls to the vally , It's a tie, keep fighting!!");
+        }
+
+    }
+}
